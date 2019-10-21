@@ -20,7 +20,8 @@ class Example(QWidget):
         self.Magnets = []
         self.vals = {}
         self.chans = {}
-        self.Energy = 0
+        self.Energy = 390.0
+        self.newEnergy = 390.0
         self.StringFieldsToFile = ''
         self.StringToEmodel = ''
         self.StringToPmodel = ''
@@ -67,12 +68,34 @@ class Example(QWidget):
         self.bigbtn3.move(140,165)
         self.bigbtn3.clicked.connect(self.Pupdate)
 
-        self.setGeometry(300, 300, 270, 200)
+        self.energyText = QLabel(self)
+        self.energyText.setText('Go to new energy')
+        self.energyText.move(20,200)
+        self.energyBox = QDoubleSpinBox(self)
+        self.energyBox.setDecimals(1)
+        self.energyBox.setMaximum(500)
+        self.energyBox.setValue(self.newEnergy)
+        self.energyBox.setSingleStep(0.2)
+        self.energyBox.move(130,200)
+        self.energyBox.valueChanged.connect(self.setNewEnergy)
+
+        self.bigbtn4 = QPushButton('Recalculate energy!',self)
+        self.bigbtn4.move(20,230)
+#        self.bigbtn1.clicked.connect(self.findFields)
+        self.bigbtn4.clicked.connect(self.newEnergyData)
+
+        self.setGeometry(300, 300, 270, 270)
         self.setWindowTitle('ReadRing')
         self.show()
 
 #        self.statusBar().showMessage(sender.text() + ' was pressed')
 
+    def setNewEnergy(self,Evalue):
+        self.newEnergy = Evalue
+
+    def newEnergyData(self):
+        print('E change clicked!, E={0}'.format(self.newEnergy))
+        Factor = self.newEnergy/self.Energy
 
     def listMagnets(self):
         #sender = self.sender()
