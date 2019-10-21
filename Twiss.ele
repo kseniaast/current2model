@@ -1,0 +1,25 @@
+
+
+&run_setup
+	lattice = machine_400.lte,
+!	lattice = machine_test.lte,
+	use_beamline = machine,
+	p_central_mev = 390.0,
+	magnets = Results/BeamLine.mag
+	element_divisions = 5,
+	default_order = 3,
+&end
+
+&load_parameters
+	filename = "currents_test.sdds",
+	change_defined_values = 1,
+&end
+
+! twiss_output is a minor action command in this instance
+&twiss_output
+	filename = Results/%s.twi,
+	matched = 1,
+	higher_order_chromaticity=2,
+	radiation_integrals = 1,
+&end
+

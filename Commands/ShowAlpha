@@ -1,0 +1,8 @@
+cd ../
+cd Results/
+
+sddsplot \
+-column=s,Profile -overlay=xmode=norm,yfact=0.04 -graph=line,type=15 BeamLine.mag \
+-column=s,alphax Twiss.twi -graph=line,type=4 -legend \
+-column=s,alphay Twiss.twi -graph=line,type=5 -legend \
+-title=""
