@@ -1,0 +1,81 @@
+&run_setup
+	lattice = machine_400.lte,
+	use_beamline = m1,
+	p_central_mev = 390.0,
+	element_divisions = 5,
+	default_order = 3,
+&end
+
+&load_parameters
+	filename = "currents_test.sdds",
+	change_defined_values = 1,
+&end
+
+&matrix_output
+	printout = "Results/m1.mtr",
+	full_matrix_only = 1
+&end
+
+&run_control
+&end
+
+&run_setup
+	lattice = machine_400.lte,
+	use_beamline = mq,
+	p_central_mev = 390.0,
+	element_divisions = 5,
+	default_order = 3,
+&end
+
+&load_parameters
+	filename = "currents_test.sdds",
+	change_defined_values = 1,
+&end
+
+&matrix_output
+  printout = "Results/mq3f3.mtr"
+&end
+
+&run_control
+&end
+
+&run_setup
+	lattice = machine_400.lte,
+	use_beamline = matrix07,
+	p_central_mev = 390.0,
+	element_divisions = 5,
+	default_order = 3,
+&end
+
+&load_parameters
+	filename = "currents_test.sdds",
+	change_defined_values = 1,
+&end
+
+&matrix_output
+  printout = "Results/m07.mtr"
+&end
+
+&run_control
+&end
+
+&run_setup
+	lattice = machine_400.lte,
+	use_beamline = matrix08,
+	p_central_mev = 390.0,
+	element_divisions = 5,
+	default_order = 3,
+&end
+
+&load_parameters
+	filename = "currents_test.sdds",
+	change_defined_values = 1,
+&end
+
+&matrix_output
+  printout = "Results/m08.mtr"
+&end
+
+&run_control
+&end
+
