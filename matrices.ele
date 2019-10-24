@@ -9,6 +9,7 @@
 &load_parameters
 	filename = "currents_test.sdds",
 	change_defined_values = 1,
+	allow_missing_elements = 1,
 &end
 
 &matrix_output
@@ -30,10 +31,12 @@
 &load_parameters
 	filename = "currents_test.sdds",
 	change_defined_values = 1,
+	allow_missing_elements = 1,
 &end
 
 &matrix_output
   printout = "Results/mq3f3.mtr"
+  full_matrix_only = 1
 &end
 
 &run_control
@@ -50,9 +53,11 @@
 &load_parameters
 	filename = "currents_test.sdds",
 	change_defined_values = 1,
+	allow_missing_elements = 1,
 &end
 
 &matrix_output
+  full_matrix_only = 1
   printout = "Results/m07.mtr"
 &end
 
@@ -70,10 +75,12 @@
 &load_parameters
 	filename = "currents_test.sdds",
 	change_defined_values = 1,
+	allow_missing_elements = 1,
 &end
 
 &matrix_output
   printout = "Results/m08.mtr"
+  full_matrix_only = 1
 &end
 
 &run_control
