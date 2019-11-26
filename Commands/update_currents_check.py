@@ -3,6 +3,7 @@
 
 import os,sys
 import re
+import scipy.optimize as solver
 #from PyQt5.QtWidgets import QWidget, QCheckBox, QApplication
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
@@ -27,61 +28,63 @@ class Example(QWidget):
         self.StringToPmodel = ''
         self.initUI()
 
-
     def initUI(self):
 
-        self.tog1 = QCheckBox('Electron injection', self)
-        self.tog1.move(20, 20)
-        #tog1.toggle()
-        #tog1.stateChanged.connect(self.listMagnets)
+#top
+        self.topframe = QFrame(self)
+        self.topframe.setFrameStyle(QFrame.Box + QFrame.Raised)
 
-        self.tog2 = QCheckBox('Positron injection', self)
+        self.tog1 = QCheckBox('Electron injection', self.topframe)
+        self.tog1.move(20, 20)
+
+        self.tog2 = QCheckBox('Positron injection', self.topframe)
         self.tog2.move(20, 40)
         #tog2.toggle()
-        #tog2.stateChanged.connect(self.listMagnets)
 
-        self.tog3 = QCheckBox('Ring', self)
+        self.tog3 = QCheckBox('Ring', self.topframe)
         self.tog3.move(20, 60)
         self.tog3.toggle()
-        #tog3.stateChanged.connect(self.listMagnets)
 
-        self.tog4 = QCheckBox('Electron extraction', self)
+        self.tog4 = QCheckBox('Electron extraction', self.topframe)
         self.tog4.move(20, 80)
         #tog4.toggle()
-        #tog4.stateChanged.connect(self.listMagnets)
 
-        self.tog5 = QCheckBox('Positron extraction', self)
+        self.tog5 = QCheckBox('Positron extraction', self.topframe)
         self.tog5.move(20, 100)
         #tog5.toggle()
-        #tog5.stateChanged.connect(self.listMagnets)
 
-        self.bigbtn1 = QPushButton('Calculate fields!',self)
-        self.bigbtn1.move(70,130)
+        self.bigbtn1 = QPushButton('Calculate fields!',self.topframe)
+        self.bigbtn1.move(70,125)
 #        self.bigbtn1.clicked.connect(self.findFields)
         self.bigbtn1.clicked.connect(self.datareadNcalc)
 
-        self.bigbtn2 = QPushButton('Update e-model',self)
-        self.bigbtn2.move(20,165)
+        self.bigbtn2 = QPushButton('Update e-model',self.topframe)
+        self.bigbtn2.move(20,155)
         self.bigbtn2.clicked.connect(self.Eupdate)
 
-        self.bigbtn3 = QPushButton('Update p-model',self)
-        self.bigbtn3.move(140,165)
+        self.bigbtn3 = QPushButton('Update p-model',self.topframe)
+        self.bigbtn3.move(140,155)
         self.bigbtn3.clicked.connect(self.Pupdate)
 
-        self.energyText = QLabel(self)
+#bottom
+        self.bottomframe = QFrame(self)
+        self.bottomframe.move(0,200)
+        self.bottomframe.setFrameStyle(QFrame.Box + QFrame.Raised)
+
+        self.energyText = QLabel(self.bottomframe)
         self.energyText.setText('Go to new energy')
-        self.energyText.move(20,200)
-        self.energyBox = QDoubleSpinBox(self)
+        self.energyText.move(20,20)
+
+        self.energyBox = QDoubleSpinBox(self.bottomframe)
         self.energyBox.setDecimals(1)
         self.energyBox.setMaximum(500)
         self.energyBox.setValue(self.newEnergy)
         self.energyBox.setSingleStep(0.2)
-        self.energyBox.move(130,200)
+        self.energyBox.move(130,20)
         self.energyBox.valueChanged.connect(self.setNewEnergy)
 
-        self.bigbtn4 = QPushButton('Recalculate energy!',self)
-        self.bigbtn4.move(20,230)
-#        self.bigbtn1.clicked.connect(self.findFields)
+        self.bigbtn4 = QPushButton('Recalculate energy!',self.bottomframe)
+        self.bigbtn4.move(20,40)
         self.bigbtn4.clicked.connect(self.newEnergyData)
 
         self.setGeometry(300, 300, 270, 270)
@@ -96,6 +99,9 @@ class Example(QWidget):
     def newEnergyData(self):
         print('E change clicked!, E={0}'.format(self.newEnergy))
         Factor = self.newEnergy/self.Energy
+    # list of magnets to recalculate:
+        self.datareadNcalc
+    
 
     def listMagnets(self):
         #sender = self.sender()
@@ -113,7 +119,7 @@ class Example(QWidget):
              self.Magnets += MagnetLines['Pextraction']               
 
 
-    def datareadNcalc(self):
+    def datareadNcalc(self,mode):
         self.Magnets=[]
         self.listMagnets()
         self.vals={}
@@ -182,7 +188,8 @@ class Example(QWidget):
 #                self.StringToFile += self.corrquad(magname)
 #            if MagnetType[magname][0]=='ringmag':
 #                self.StringToFile += self.rm(magname)      
-        
+        print("Field calculations finished.")
+
     def FindTwiss(self,string):
         workdir = os.getcwd()
         dirname = os.path.dirname(workdir)
@@ -200,12 +207,14 @@ class Example(QWidget):
     def Eupdate(self):
         print('Electrons coordinate system is right-side...')
         self.FindTwiss(self.StringToEmodel)
+        print('File "current_test.sdds" updated.')
 #        print(self.StringToEmodel)
         
         
     def Pupdate(self):
         print('Positron coordinate system is left-side...')
         self.FindTwiss(self.StringToPmodel)
+        print('File "current_test.sdds" updated.')
         #print(self.StringToPmodel)
 
 # Field calculators
